@@ -1,0 +1,12 @@
+# -------------------- owner.yaml --------------------
+# Single-source-of-truth for this repository's ownership and escalation data.
+# Every field marked **Required** must be present in every repo.
+#mixed quote
+# -------------------- owner.yaml --------------------
+service_name: "payment-processing-engine"
+team_name: mobile-payments-team
+team_email: 'payments@darwin.com'
+slack_channel: "#mobile-payments"
+domain: financial-services
+jira_project: 'https://darwinda.atlassian.net/browse/PAY'
+oncall: https://app.incident.io/darwinsdf/on-call/schedules/01J2A3HDGJ6CNA03S986SD
