@@ -10,3 +10,4 @@ slack_channel: "#mobile-payments"
 domain: financial-services
 jira_project: 'https://darwinda.atlassian.net/browse/PAY'
 oncall: https://app.incident.io/darwinsdf/on-call/schedules/01J2A3HDGJ6CNA03S986SD
+ofcall: https://app.incident.io/darwinsdf/on-call/schedules/01J2A3HDGJ6CNA03S987738
