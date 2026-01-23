@@ -7,6 +7,8 @@ const require = createRequire(import.meta.url);
 const packageJson = require("../package.json");
 import "dotenv/config";
 import logger from "./logger.js";
+
+// Existing Tool Imports
 import addSDKTools from "./tools/bstack-sdk.js";
 import addAppLiveTools from "./tools/applive.js";
 import addBrowserLiveTools from "./tools/live.js";
@@ -18,6 +20,9 @@ import addAutomateTools from "./tools/automate.js";
 import addSelfHealTools from "./tools/selfheal.js";
 import { setupOnInitialized } from "./oninitialized.js";
 
+// 1. New Tool Import
+import addStatusTools from "./tools/status.js";
+
 function registerTools(server: McpServer) {
   addSDKTools(server);
   addAppLiveTools(server);
@@ -28,6 +33,19 @@ function registerTools(server: McpServer) {
   addFailureLogsTools(server);
   addAutomateTools(server);
   addSelfHealTools(server);
+  
+  // 2. Registering the new Status tool module
+  addStatusTools(server);
+
+  // 3. Adding an API/Tool directly in the main file (Example: Quick Echo)
+  server.tool(
+    "echo-test",
+    "A simple API to test server responsiveness",
+    { message: { type: "string", description: "The message to echo" } },
+    async ({ message }) => ({
+      content: [{ type: "text", text: `Server received: ${message}` }]
+    })
+  );
 }
 
 // Create an MCP server
@@ -37,7 +55,6 @@ const server: McpServer = new McpServer({
 });
 
 setupOnInitialized(server);
-
 registerTools(server);
 
 async function main() {
@@ -46,14 +63,15 @@ async function main() {
     packageJson.version,
   );
 
-  // Start receiving messages on stdin and sending messages on stdout
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  logger.error("Server crashed: %O", err);
+  process.exit(1);
+});
 
-// Ensure logs are flushed before exit
 process.on("exit", () => {
   logger.flush();
 });
