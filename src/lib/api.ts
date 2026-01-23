@@ -8,13 +8,7 @@ export async function getLatestO11YBuildInfo(
     buildName,
   )}&project_name=${encodeURIComponent(projectName)}`;
 
-  const buildsResponse = await fetch(buildsUrl, {
-    headers: {
-      Authorization: `Basic ${Buffer.from(
-        `${config.browserstackUsername}:${config.browserstackAccessKey}`,
-      ).toString("base64")}`,
-    },
-  });
+  
 
   if (!buildsResponse.ok) {
     if (buildsResponse.statusText === "Unauthorized") {
